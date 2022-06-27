@@ -1,12 +1,13 @@
 
-
 const Web3 = require('web3');
 const readline=require('readline')
 require('dotenv').config()
 const prompt = require("prompt-sync")({ sigint: true });
+const cliProgress = require('cli-progress');
+
 const ERC1155InterfaceId = "0xd9b67a26";
 const ERC721InterfaceId = "0x80ac58cd";
-const cliProgress = require('cli-progress');
+
 let web3 = new Web3(Web3.givenProvider || process.env.PROVIDER_URL);
 const ERC165Abi = [
     {
@@ -47,10 +48,8 @@ const ERC165Abi = [
                 let res=await contract.methods
                     .supportsInterface(ERC1155InterfaceId)
                     .call()
-                    //console.log(res)
                 if(res){
                     addAddress(txReceipt.contractAddress)
-                    //console.log("Is ", txReceipt.contractAddress, " ERC1155 - ", res); 
                 }else{
                     res=await contract.methods
                     .supportsInterface(ERC721InterfaceId)
@@ -58,7 +57,6 @@ const ERC165Abi = [
                     if(res){
                         addAddress(txReceipt.contractAddress)
                     }
-                    //console.log("Is ", txReceipt.contractAddress, " ERC721 - ", res); 
                 }   
             }
     } 
